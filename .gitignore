@@ -1,0 +1,8 @@
+# Project exclude paths
+/project/project/target/
+/project/target/
+/services/books-service/target/
+/services/books-service/target/scala-2.12/classes/
+/services/user-service/target/
+/services/user-service/target/scala-2.12/classes/
+/target/
