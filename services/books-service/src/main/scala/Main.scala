@@ -14,7 +14,7 @@ object Main extends IOApp {
     val appResource = for {
 
       server <- BlazeServerBuilder[IO](global)
-        .bindHttp(8081, "localhost")
+        .bindHttp(8080, "localhost")
         .withHttpApp(booksRouter.httpApp)
         .resource
     } yield server
