@@ -14,8 +14,6 @@ import scala.concurrent.Future
 class BooksHttpRouter(booksRetrievalService: BooksRetrievalService) {
     implicit val runtime: IORuntime = cats.effect.unsafe.IORuntime.global
 
-    object QueryParamBookIdMather extends QueryParamDecoderMatcher[Int]("id")
-
     implicit class helperMethods[T](future: Future[T]){
       def toIO: IO[T] = IO.fromFuture(IO(future))
     }
