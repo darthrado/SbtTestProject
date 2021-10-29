@@ -6,3 +6,4 @@
 /services/user-service/target/
 /services/user-service/target/scala-2.12/classes/
 /target/
+/.idea/

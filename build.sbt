@@ -16,15 +16,7 @@ lazy val commonSettings = Seq(
     "org.typelevel" %% "cats-core" % "2.6.0",
     "org.typelevel" %% "cats-effect" % "3.1.1",
 
-    "org.tpolecat" %% "doobie-core" % "1.0.0-M5",
-    "org.tpolecat" %% "doobie-hikari" % "1.0.0-M5",
-    "org.tpolecat" %% "doobie-postgres" % "1.0.0-M5",
-
     "com.typesafe" % "config" % "1.4.1",
-
-    "co.fs2" %% "fs2-core" % "3.0.4",
-    "co.fs2" %% "fs2-io" % "3.0.4",
-    "co.fs2" %% "fs2-reactive-streams" % "3.0.4",
 
     "io.circe" %% "circe-core" % "0.14.1",
     "io.circe" %% "circe-generic" % "0.14.1",
@@ -40,7 +32,9 @@ lazy val commonSettings = Seq(
     "org.scalatest" %% "scalatest" % "3.2.7" % Test,
     "org.typelevel" %% "cats-laws" % "2.6.0" % Test,
     "org.typelevel" %% "discipline-scalatest" % "2.1.5" % Test,
-    "org.typelevel" %% "cats-effect-testing-scalatest" % "1.1.1" % Test
+    "org.typelevel" %% "cats-effect-testing-scalatest" % "1.1.1" % Test,
+
+    "org.scanamo" %% "scanamo" % "1.0.0-M17"
   )
 
 )

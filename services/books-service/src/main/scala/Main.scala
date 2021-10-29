@@ -7,7 +7,8 @@ import scala.concurrent.ExecutionContext.global
 
 object Main extends IOApp {
   override def run(args: List[String]): IO[ExitCode] = {
-    val db = BooksDatabase.apply
+    val dbClient = LocalDynamoDB.client(8000)
+    val db = BooksDatabase(dbClient)
     val brs = new BooksRetrievalService(db)
     val booksRouter = new BooksHttpRouter(brs)
 
