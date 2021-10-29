@@ -7,7 +7,7 @@ import org.http4s.implicits.http4sKleisliResponseSyntaxOptionT
 import org.http4s.dsl.io._
 import Book.bookCodec
 
-import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
+import org.http4s.circe.CirceEntityCodec.{circeEntityDecoder, circeEntityEncoder}
 
 import scala.concurrent.Future
 
@@ -21,9 +21,7 @@ class BooksHttpRouter(booksRetrievalService: BooksRetrievalService) {
     }
 
     def booksRoute: HttpRoutes[IO] = HttpRoutes.of[IO] {
-      case GET -> Root / "books" / name =>
-        val serviceCall = booksRetrievalService.getBookByName(name)
-        IO.fromFuture(IO(serviceCall)).flatMap {
+      case GET -> Root / "books" / name => booksRetrievalService.getBookByName(name).toIO.flatMap {
           case None => NotFound()
           case Some(Left(_)) => InternalServerError()
           case Some(Right(value)) => Ok(value)
@@ -36,16 +34,19 @@ class BooksHttpRouter(booksRetrievalService: BooksRetrievalService) {
         }
 
       case req @ POST -> Root / "books" =>
-        println("Hello there")
-        booksRetrievalService.saveBook(req.body.as[Book]).toIO.flatMap(_ => Accepted())
+        req.as[Book].flatMap {
+          booksRetrievalService.saveBook(_).toIO.flatMap(_ => Accepted())
+        }
 
       case req @ PUT -> Root / "books" / name =>
-        booksRetrievalService.saveBook(req.body.as[Book]).toIO.flatMap(_ => Accepted())
+        req.as[Book].flatMap {
+          booksRetrievalService.saveBook(_).toIO.flatMap(_ => Accepted())
+        }
 
-      case DELETE -> Root / "books" / name => ???
+      case DELETE -> Root / "books" / name =>
+        booksRetrievalService.deleteBook(name).toIO.flatMap(_ => Accepted())
     }
 
     def httpApp: HttpApp[IO] = booksRoute.orNotFound
-
 
 }

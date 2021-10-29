@@ -29,6 +29,7 @@ class BooksDatabase(db: DynamoDbAsyncClient) {
   def getAll: Future[List[Either[DynamoReadError, Book]]] = scanamo.exec( books.scan() )
   def get(name: String): Future[Option[Either[DynamoReadError, Book]]] = scanamo.exec( books.get("name" === name))
   def save(book: Book): Future[Unit] = scanamo.exec( books.put(book) )
+  def delete(name: String): Future[Unit] = scanamo.exec( books.delete("name" === name))
 
 }
 

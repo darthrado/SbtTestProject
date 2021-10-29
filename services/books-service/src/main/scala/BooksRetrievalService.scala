@@ -12,6 +12,8 @@ class BooksRetrievalService(booksDatabase: BooksDatabase) {
 
   def saveBook(book: Book): Future[Unit] = booksDatabase.save(book)
 
+  def deleteBook(name: String): Future[Unit] = booksDatabase.delete(name)
+
   private val emptyListOfBooks: Either[DynamoReadError,List[Book]] = Right(List.empty)
 
   private def zip(a: List[Either[DynamoReadError,Book]]) =
