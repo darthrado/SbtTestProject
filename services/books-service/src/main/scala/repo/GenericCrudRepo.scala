@@ -8,8 +8,9 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class GenericCrudRepo[A](val db: DynamoDbAsyncClient, val table: Table[A], implicit val tableFormat: DynamoFormat[A]) {
+class GenericCrudRepo[A](val db: DynamoDbAsyncClient, val tableName: String, implicit val tableFormat: DynamoFormat[A]) {
   private val scanamo = ScanamoAsync(db)
+  private val table = Table[A](tableName)
 
   def getAll: Future[List[Either[DynamoReadError, A]]] = scanamo.exec( table.scan() )
   def get(key: UniqueKey[_]): Future[Option[Either[DynamoReadError, A]]] = scanamo.exec( table.get(key))
