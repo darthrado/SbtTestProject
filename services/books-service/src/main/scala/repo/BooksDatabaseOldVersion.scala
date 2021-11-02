@@ -1,27 +1,15 @@
 package org.sbttest.booksservice
+package repo
 
-import io.circe.Codec
-import io.circe.generic.semiauto.deriveCodec
 import org.scanamo.generic.auto.genericDerivedFormat
-import org.scanamo.{DynamoReadError, ScanamoAsync, Table}
 import org.scanamo.syntax._
+import org.scanamo.{DynamoReadError, ScanamoAsync, Table}
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-
-final case class Author(name: String)
-final case class Book(name: String, genre: String, author: Author)
-
-object Author{
-  implicit val authorCodec: Codec[Author] = deriveCodec[Author]
-}
-object Book{
-  implicit val bookCodec: Codec[Book] = deriveCodec[Book]
-}
-
-class BooksDatabase(db: DynamoDbAsyncClient) {
+class BooksDatabaseOldVersion(db: DynamoDbAsyncClient) {
   private val scanamo = ScanamoAsync(db)
   private val books = Table[Book]("books")
 
@@ -33,6 +21,6 @@ class BooksDatabase(db: DynamoDbAsyncClient) {
 
 }
 
-object BooksDatabase {
-  def apply(db: DynamoDbAsyncClient) = new BooksDatabase(db)
+object BooksDatabaseOldVersion {
+  def apply(db: DynamoDbAsyncClient) = new BooksDatabaseOldVersion(db)
 }

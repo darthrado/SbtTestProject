@@ -1,8 +1,10 @@
 package org.sbttest.booksservice
 
+import config.{BookServiceConfig, Configuration, ServerConfig}
+import repo.BookRepo
+
 import cats.effect.{ExitCode, IO, IOApp}
 import org.http4s.blaze.server.BlazeServerBuilder
-import org.sbttest.booksservice.config.{BookServiceConfig, Configuration, ServerConfig}
 
 import scala.concurrent.ExecutionContext.global
 
@@ -12,13 +14,14 @@ object Main extends IOApp {
     bookServiceConfig <- Configuration.get("bookService")[BookServiceConfig]
     serverConfig <- Configuration.get("server")[ServerConfig]
 
-    dbClient = new LocalDynamoDB(
+    dbClient = new DynamoDB(
       bookServiceConfig.dynamo.url,
       bookServiceConfig.dynamo.user,
       bookServiceConfig.dynamo.pass).client(bookServiceConfig.dynamo.port)
-    db = BooksDatabase(dbClient)
-    brs = new BooksRetrievalService(db)
-    booksRouter = new BooksHttpRouter(brs)
+
+    dbRepo = new BookRepo(dbClient)
+    booksRetrievalService = new BooksRetrievalService(dbRepo)
+    booksRouter = new BooksHttpRouter(booksRetrievalService)
 
 
     server <- BlazeServerBuilder[IO](global)
