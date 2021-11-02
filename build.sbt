@@ -21,6 +21,8 @@ lazy val commonSettings = Seq(
     "io.circe" %% "circe-core" % "0.14.1",
     "io.circe" %% "circe-generic" % "0.14.1",
     "io.circe" %% "circe-parser" % "0.14.1",
+    "io.circe" %% "circe-generic-extras" % "0.14.0",
+    "io.circe" %% "circe-config" % "0.8.0",
 
     "org.http4s" %% "http4s-dsl" % "0.23.0-RC1",
     "org.http4s" %% "http4s-blaze-server" % "0.23.0-RC1",

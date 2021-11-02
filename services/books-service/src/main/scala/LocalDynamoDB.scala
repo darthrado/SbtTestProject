@@ -14,11 +14,11 @@ import java.net.URI
 import software.amazon.awssdk.http.nio.netty.NettyNioAsyncHttpClient
 
 //Copied from: scanamo test kit
-object LocalDynamoDB {
+class LocalDynamoDB(val url: String,val username: String,val password: String) {
   def client(port: Int = 8042): DynamoDbAsyncClient =
     DynamoDbAsyncClient.builder
-      .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create("dummy", "credentials")))
-      .endpointOverride(URI.create(s"http://localhost:$port"))
+      .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(username, password)))
+      .endpointOverride(URI.create(s"$url:$port"))
       .overrideConfiguration(
         ClientOverrideConfiguration.builder
           .apiCallAttemptTimeout(5.seconds.toJava)
@@ -31,8 +31,8 @@ object LocalDynamoDB {
 
   def syncClient(port: Int = 8042): DynamoDbClient =
     DynamoDbClient.builder
-      .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create("dummy", "credentials")))
-      .endpointOverride(URI.create(s"http://localhost:$port"))
+      .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(username, password)))
+      .endpointOverride(URI.create(s"$url:$port"))
       .overrideConfiguration(
         ClientOverrideConfiguration.builder
           .apiCallAttemptTimeout(5.seconds.toJava)
