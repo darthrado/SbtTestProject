@@ -41,4 +41,5 @@ class DynamoDB(val url: String, val username: String, val password: String) {
       )
       .region(Region.EU_WEST_1)
       .build
+
 }

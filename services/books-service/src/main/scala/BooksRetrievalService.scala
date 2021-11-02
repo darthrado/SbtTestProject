@@ -1,10 +1,12 @@
 package org.sbttest.booksservice
 
-import org.sbttest.booksservice.repo.{Book, BookRepo}
+import dto.Book
+import repo.BookRepo
+
 import org.scanamo.DynamoReadError
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Future, blocking}
+import scala.concurrent.Future
 
 class BooksRetrievalService(booksDatabase: BookRepo) {
   def getAllBooks: Future[Either[DynamoReadError,List[Book]]] = booksDatabase.getAll.map(zip)

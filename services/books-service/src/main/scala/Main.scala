@@ -2,7 +2,7 @@ package org.sbttest.booksservice
 
 import config.{BookServiceConfig, Configuration, ServerConfig}
 import repo.BookRepo
-
+import config.ConfigDto._
 import cats.effect.{ExitCode, IO, IOApp}
 import org.http4s.blaze.server.BlazeServerBuilder
 
@@ -11,8 +11,8 @@ import scala.concurrent.ExecutionContext.global
 object Main extends IOApp {
 
   private val app = for {
-    bookServiceConfig <- Configuration.get("bookService")[BookServiceConfig]
-    serverConfig <- Configuration.get("server")[ServerConfig]
+    bookServiceConfig <- Configuration.get[BookServiceConfig]("bookService")
+    serverConfig <- Configuration.get[ServerConfig]("server")
 
     dbClient = new DynamoDB(
       bookServiceConfig.dynamo.url,

@@ -2,12 +2,11 @@ package org.sbttest.booksservice
 
 import cats.effect.IO
 import cats.effect.unsafe.IORuntime
+import org.http4s.circe.CirceEntityCodec._
 import org.http4s.{HttpApp, HttpRoutes}
 import org.http4s.implicits.http4sKleisliResponseSyntaxOptionT
 import org.http4s.dsl.io._
-import org.sbttest.booksservice.repo.Book.bookCodec
-import org.http4s.circe.CirceEntityCodec.{circeEntityDecoder, circeEntityEncoder}
-import org.sbttest.booksservice.repo.Book
+import dto.Book
 
 import scala.concurrent.Future
 

@@ -1,7 +1,7 @@
 package org.sbttest.booksservice
 package repo
 
-import org.scanamo.generic.auto.genericDerivedFormat
+import dto.Book
 import org.scanamo.syntax._
 import org.scanamo.{DynamoReadError, ScanamoAsync, Table}
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient

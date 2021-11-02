@@ -1,23 +1,14 @@
 package org.sbttest.booksservice
 package repo
 
-import io.circe.Codec
-import io.circe.generic.semiauto.deriveCodec
-import org.scanamo.query.{KeyEquals, UniqueKey}
+import dto.Book
+
+import org.scanamo.query.UniqueKey
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
 import org.scanamo.syntax._
+import org.scanamo.Table
 
-final case class Author(name: String)
-final case class Book(name: String, genre: String, author: Author)
-
-object Author{
-  implicit val authorCodec: Codec[Author] = deriveCodec[Author]
-}
-object Book{
-  implicit val bookCodec: Codec[Book] = deriveCodec[Book]
-}
-
-class BookRepo(db: DynamoDbAsyncClient) extends GenericCrudRepo[Book](db,"books")
+class BookRepo(db: DynamoDbAsyncClient) extends GenericCrudRepo[Book](db,Table[Book]("books"),Book.bookFormat)
 
 object BookRepo{
   def matchByName(name:String): UniqueKey[_] = "name" === name
