@@ -8,7 +8,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class GenericCrudRepo[A](val db: DynamoDbAsyncClient, val tableName: String, implicit val tableFormat: DynamoFormat[A]) {
+class GenericCrudRepo[A](val db: DynamoDbAsyncClient, val tableName: String)(implicit val tableFormat: DynamoFormat[A]) {
   private val scanamo = ScanamoAsync(db)
   private val table = Table[A](tableName)
 

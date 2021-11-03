@@ -11,9 +11,7 @@ final case class Book(name: String, genre: String, author: Author)
 
 object Author{
   implicit val authorCodec: Codec[Author] = deriveCodec[Author]
-  implicit val bookFormat: DynamoFormat[Author] = deriveDynamoFormat[Author]
 }
 object Book{
   implicit val bookCodec: Codec[Book] = deriveCodec[Book]
-  implicit val bookFormat: DynamoFormat[Book] = deriveDynamoFormat[Book]
 }

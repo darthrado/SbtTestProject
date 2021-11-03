@@ -5,6 +5,7 @@ import dto.Book
 import org.scanamo.syntax._
 import org.scanamo.{DynamoReadError, ScanamoAsync, Table}
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
+import org.scanamo.generic.auto._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
