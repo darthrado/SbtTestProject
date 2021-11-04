@@ -2,7 +2,7 @@ package org.sbttest.booksservice
 
 import config.{BookServiceConfig, Configuration, ServerConfig}
 import repo.BookRepo
-import config.ConfigDto._
+import io.circe.generic.auto._
 import cats.effect.{ExitCode, IO, IOApp}
 import org.http4s.blaze.server.BlazeServerBuilder
 
