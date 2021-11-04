@@ -3,19 +3,17 @@ package org.sbttest.booksservice
 import dto.Book
 import repo.BookRepo
 
+import cats.effect.IO
 import org.scanamo.DynamoReadError
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-
 class BooksRetrievalService(booksDatabase: BookRepo) {
-  def getAllBooks: Future[Either[DynamoReadError,List[Book]]] = booksDatabase.getAll.map(zip)
+  def getAllBooks: IO[Either[DynamoReadError,List[Book]]] = booksDatabase.getAll.map(zip)
 
-  def getBookByName(name: String): Future[Option[Either[DynamoReadError, Book]]] = booksDatabase.get(BookRepo.matchByName(name))
+  def getBookByName(name: String): IO[Option[Either[DynamoReadError, Book]]] = booksDatabase.get(BookRepo.matchByName(name))
 
-  def saveBook(book: Book): Future[Unit] = booksDatabase.save(book)
+  def saveBook(book: Book): IO[Unit] = booksDatabase.save(book)
 
-  def deleteBook(name: String): Future[Unit] = booksDatabase.delete(BookRepo.matchByName(name))
+  def deleteBook(name: String): IO[Unit] = booksDatabase.delete(BookRepo.matchByName(name))
 
   private val emptyListOfBooks: Either[DynamoReadError,List[Book]] = Right(List.empty)
 

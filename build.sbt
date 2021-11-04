@@ -36,7 +36,8 @@ lazy val commonSettings = Seq(
     "org.typelevel" %% "discipline-scalatest" % "2.1.5" % Test,
     "org.typelevel" %% "cats-effect-testing-scalatest" % "1.1.1" % Test,
 
-    "org.scanamo" %% "scanamo" % "1.0.0-M17"
+    "org.scanamo" %% "scanamo" % "1.0.0-M17",
+    "org.scanamo" %% "scanamo-cats-effect" % "1.0.0-M17"
   )
 
 )

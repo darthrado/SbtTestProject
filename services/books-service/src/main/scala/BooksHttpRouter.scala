@@ -21,30 +21,30 @@ class BooksHttpRouter(booksRetrievalService: BooksRetrievalService) {
     }
 
     def booksRoute: HttpRoutes[IO] = HttpRoutes.of[IO] {
-      case GET -> Root / "books" / name => booksRetrievalService.getBookByName(name).toIO.flatMap {
+      case GET -> Root / "books" / name => booksRetrievalService.getBookByName(name).flatMap {
           case None => NotFound()
           case Some(Left(_)) => InternalServerError()
           case Some(Right(value)) => Ok(value)
         }
 
       case GET -> Root / "books" =>
-        booksRetrievalService.getAllBooks.toIO.flatMap {
+        booksRetrievalService.getAllBooks.flatMap {
           case Right(value) => Ok(value)
           case Left(_) => InternalServerError()
         }
 
       case req @ POST -> Root / "books" =>
         req.as[Book].flatMap {
-          booksRetrievalService.saveBook(_).toIO.flatMap(_ => Accepted())
+          booksRetrievalService.saveBook(_).flatMap(_ => Accepted())
         }
 
       case req @ PUT -> Root / "books" / name =>
         req.as[Book].flatMap {
-          booksRetrievalService.saveBook(_).toIO.flatMap(_ => Accepted())
+          booksRetrievalService.saveBook(_).flatMap(_ => Accepted())
         }
 
       case DELETE -> Root / "books" / name =>
-        booksRetrievalService.deleteBook(name).toIO.flatMap(_ => Accepted())
+        booksRetrievalService.deleteBook(name).flatMap(_ => Accepted())
     }
 
     def httpApp: HttpApp[IO] = booksRoute.orNotFound
